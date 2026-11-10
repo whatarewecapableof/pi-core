@@ -1,0 +1,22 @@
+{
+  "name": "pi-core",
+  "version": "0.1.0",
+  "description": "One shared instruction set for every Pi session, with an optional local overlay.",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "repository": "github:whatarewecapableof/pi-core",
+  "scripts": {
+    "test": "node --test extensions/core/index.test.ts"
+  },
+  "pi": {
+    "extensions": ["./extensions/core/index.ts"],
+    "skills": ["./skills"]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=1.5.0"
+  },
+  "engines": {
+    "node": ">=22.6"
+  }
+}
