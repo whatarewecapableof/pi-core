@@ -5,8 +5,9 @@
 // Additive only: the caller's own prompts (--system-prompt, --append-system-prompt), project
 // AGENTS files, the user's global ~/.pi/agent/AGENTS.md and skills are left exactly as Pi loaded
 // them. CORE goes after any existing append text so a child's role prompt stays first.
-// Idempotent: text already present in the append is not added again, so a host that composes
-// CORE itself (a Web daemon reading a generated baseline) gets it once.
+// Idempotent: text already present anywhere in the prompt (the append, the custom prompt or a
+// context file such as an AGENTS.md generated from CORE) is not added again, so a host that
+// composes CORE itself gets it once.
 // Writes nothing to stdout: headless callers relay stdout. Warnings go to the UI when there is one.
 // PI_CORE_DISABLE=1 turns it off for isolated workers. Older SDKs without systemPromptOptions are
 // left alone rather than crashed.
@@ -20,6 +21,7 @@ type Env = Record<string, string | undefined>;
 export interface PromptOptions {
   customPrompt?: string;
   appendSystemPrompt: string;
+  contextFiles?: { path: string; content: string }[];
   [key: string]: unknown;
 }
 export interface Applied { core: boolean; overlay: boolean }
@@ -35,9 +37,15 @@ export function disabledBy(env: Env): boolean {
   return v !== undefined && v !== "" && v !== "0" && v.toLowerCase() !== "false";
 }
 
+function present(options: PromptOptions, body: string): boolean {
+  if (options.appendSystemPrompt.includes(body)) return true;
+  if (typeof options.customPrompt === "string" && options.customPrompt.includes(body)) return true;
+  return (options.contextFiles ?? []).some(file => typeof file?.content === "string" && file.content.includes(body));
+}
+
 function appendOnce(options: PromptOptions, text: string): boolean {
   const body = text.trim();
-  if (!body || options.appendSystemPrompt.includes(body)) return false;
+  if (!body || present(options, body)) return false;
   const current = options.appendSystemPrompt.trimEnd();
   options.appendSystemPrompt = current ? `${current}\n\n${body}` : body;
   return true;

@@ -54,6 +54,18 @@ test("host that already composed CORE (generated baseline = CORE + overlay): not
   assert.equal(o.appendSystemPrompt, before);
 });
 
+test("host that delivers CORE as a context file (AGENTS.md generated from CORE + overlay): nothing added", () => {
+  const o = options({ contextFiles: [{ path: "/home/u/Projects/demo/AGENTS.md", content: `${CORE}\n${OVERLAY}` }] });
+  assert.deepEqual(applyCore(o, CORE, OVERLAY), { core: false, overlay: false });
+  assert.equal(o.appendSystemPrompt, "");
+});
+
+test("context file with only CORE: overlay still appended", () => {
+  const o = options({ contextFiles: [{ path: "/home/u/Projects/demo/AGENTS.md", content: CORE }] });
+  assert.deepEqual(applyCore(o, CORE, OVERLAY), { core: false, overlay: true });
+  assert.equal(o.appendSystemPrompt, "# Local\n\nOverlay body.");
+});
+
 test("idempotent: second application changes nothing", () => {
   const o = options({ appendSystemPrompt: "role append" });
   applyCore(o, CORE, OVERLAY);
