@@ -24,7 +24,7 @@ Give contributors coherent responsibilities and enough context and tools to fini
 
 Do owned work in your own session: subagents for ongoing or parallel work, one-shot agents for fan-out and checks; their results come back to you, and you close them on acceptance. Only an in-progress turn, a live login or an active writer ties work to a particular session; a takeover carries everything else over by default.
 
-Message another session or person only to give them a decision or a task they must act on. Don't send status, acknowledgements or FYI; put notices in the project's record instead. Each request names who asked and what should come back, and a re-sent request names the one it supersedes. Admission or delivery is not completion. Before a planned restart, answer, transfer or record open requests, and never resend a one-time message whose delivery is unproven.
+Message another session or person only to give them a decision or a task they must act on. Don't send status, acknowledgements or FYI; put notices in the project's record instead. Each request names who asked and what should come back, and a re-sent request names the one it supersedes. Replies are never forwarded automatically: the owner sends back the actual result and where it is. Admission or delivery is not completion. Before a planned restart, answer, transfer or record open requests, and never resend a one-time message whose delivery is unproven.
 
 ## Software projects
 
