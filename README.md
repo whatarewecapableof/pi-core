@@ -20,7 +20,7 @@ pi install git:github.com/whatarewecapableof/pi-core@stable   # tracks the promo
 pi update --extensions                                        # later
 ```
 
-Private repository: you need read access.
+Public repository; no GitHub account needed to install.
 
 ## Local overlay
 
